@@ -45,6 +45,8 @@ export const notFoundPageData: PageData = {
   isNotFound: true
 }
 
+const versionedPaths = ['clients', 'plugins'] as const
+
 export function isActive(
   currentPath: string,
   matchPath?: string,
@@ -64,10 +66,9 @@ export function isActive(
 
   if (normalizedMatchPath !== currentPath) {
     const currentPathParts = currentPath.split('/')
-    // handle versioned clients and plugins
     if (
       currentPathParts.length > 3 &&
-      (currentPathParts[2] === 'plugins' || currentPathParts[2] === 'clients')
+      versionedPaths.some((entry) => entry === currentPathParts[2])
     ) {
       currentPath = currentPathParts.slice(0, 4).join('/')
       if (normalizedMatchPath !== currentPath) {
